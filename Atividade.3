@@ -1,0 +1,15 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include <locale.h>
+
+int main(){
+setlocale (LC_ALL, "Portuguese");
+float coordenada_x;
+float *ponteiro_x;
+ponteiro_x = &coordenada_x;
+printf("Digite a coordenada do portal X:\n ");
+scanf("%f", &coordenada_x);
+printf("Posição do portal no eixo X: %.1f\n", coordenada_x);
+printf("Endereço do portal para teletransporte: %p\n", ponteiro_x);
+return 0;
+}
