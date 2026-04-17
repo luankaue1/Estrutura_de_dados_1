@@ -1,0 +1,27 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+typedef struct {
+    char nome[50];
+    int vidas;
+    int pontuacao;
+} Jogador;
+
+int main() {
+    Jogador player1;
+    char nome_digitado[50];
+    
+    player1.vidas = 3;
+    player1.pontuacao = 0;
+    
+    printf("Digite o nome do seu personagem: ");
+    scanf("%s", nome_digitado);
+    
+    strcpy(player1.nome, nome_digitado);
+    
+    printf("Personagem criado! Bem-vindo, %s! Vidas: %d, Pontuação: %d\n",
+           player1.nome, player1.vidas, player1.pontuacao);
+    
+    return 0;
+}
