@@ -1,0 +1,20 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef struct {
+    int vida;
+    int ataque;
+    float velocidade;
+} Inimigo;
+
+int main() {
+    Inimigo inimigo1 = {100, 20, 2.5};
+    Inimigo inimigo2 = {80, 30, 3.0};
+    
+    printf("Inimigo 1 - Vida: %d, Ataque: %d, Velocidade: %.1f\n", 
+           inimigo1.vida, inimigo1.ataque, inimigo1.velocidade);
+    printf("Inimigo 2 - Vida: %d, Ataque: %d, Velocidade: %.1f\n", 
+           inimigo2.vida, inimigo2.ataque, inimigo2.velocidade);
+    
+    return 0;
+}
