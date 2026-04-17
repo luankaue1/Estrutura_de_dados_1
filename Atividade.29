@@ -1,0 +1,21 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef struct {
+    int valor_pontos;
+    float peso;
+} ItemColetavel;
+
+int main() {
+    ItemColetavel moeda_bronze = {10, 0.5};
+    ItemColetavel moeda_prata = {50, 0.7};
+    ItemColetavel moeda_ouro = {100, 1.0};
+    
+    int pontuacao_jogador = 0;
+    
+    pontuacao_jogador += moeda_ouro.valor_pontos;
+    
+    printf("Moeda de ouro coletada! Pontuação atual: %d\n", pontuacao_jogador);
+    
+    return 0;
+}
