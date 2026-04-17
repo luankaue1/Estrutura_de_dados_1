@@ -1,0 +1,47 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+int main() {
+    int *mochila = (int*)malloc(3 * sizeof(int));
+    
+    if(mochila == NULL) {
+        printf("Erro ao alocar memória!\n");
+        return 1;
+    }
+    
+    printf("Digite os valores dos 3 primeiros itens:\n");
+    for(int i = 0; i < 3; i++) {
+        printf("Item %d: ", i + 1);
+        scanf("%d", &mochila[i]);
+    }
+    
+    printf("\nItens atuais na mochila:\n");
+    for(int i = 0; i < 3; i++) {
+        printf("Posição %d: %d\n", i + 1, mochila[i]);
+    }
+    
+    int *nova_mochila = (int*)realloc(mochila, 6 * sizeof(int));
+    
+    if(nova_mochila == NULL) {
+        printf("Erro ao realocar memória!\n");
+        free(mochila);
+        return 1;
+    }
+    
+    mochila = nova_mochila;
+    
+    printf("\nDigite os valores dos 3 novos itens:\n");
+    for(int i = 3; i < 6; i++) {
+        printf("Item %d: ", i + 1);
+        scanf("%d", &mochila[i]);
+    }
+    
+    printf("\nTodos os itens na mochila:\n");
+    for(int i = 0; i < 6; i++) {
+        printf("Posição %d: %d\n", i + 1, mochila[i]);
+    }
+    
+    free(mochila);
+    
+    return 0;
+}
