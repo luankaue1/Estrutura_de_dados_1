@@ -1,0 +1,33 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+int main() {
+    int n;
+    printf("Digite quantidade de inimigos na fase:\n");
+    scanf("%d", &n);
+    
+    int *status_inimigos = (int*)calloc(n, sizeof(int));
+    
+    if(status_inimigos == NULL) {
+        printf("Erro ao alocar memória!\n");
+        return 1;
+    }
+    
+    printf("\nStatus inicial dos inimigos:\n");
+    for(int i = 0; i < n; i++) {
+        printf("Inimigo %d: Inativo (%d)\n", i + 1, status_inimigos[i]);
+    }
+    
+    for(int i = 0; i < n; i++) {
+        status_inimigos[i] = 1;
+    }
+    
+    printf("\nStatus após ativação:\n");
+    for(int i = 0; i < n; i++) {
+        printf("Inimigo %d: Ativo (%d)\n", i + 1, status_inimigos[i]);
+    }
+    
+    free(status_inimigos);
+    
+    return 0;
+}
