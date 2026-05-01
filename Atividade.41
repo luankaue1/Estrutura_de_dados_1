@@ -1,0 +1,30 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct {
+    char evento[100];
+} Evento;
+
+int main() {
+    FILE *arquivo = fopen("game_log.txt", "a");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo.\n");
+        return 1;
+    }
+
+    int opcao;
+    do {
+        printf("Menu:\n1. Registrar novo evento\n2. Sair\nEscolha uma opção: ");
+        scanf("%d", &opcao);
+        if (opcao == 1) {
+            Evento novoEvento;
+            printf("Digite a descrição do evento: ");
+            scanf("%s", novoEvento.evento);
+            fprintf(arquivo, "%s\n", novoEvento.evento);
+        }
+    } while (opcao != 2);
+
+    fclose(arquivo);
+    return 0;
+}
