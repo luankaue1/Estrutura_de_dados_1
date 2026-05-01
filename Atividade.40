@@ -1,0 +1,40 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct {
+    char nome[50];
+    int pontuacao;
+} Jogador;
+
+int main() {
+    int n;
+    printf("Digite o número de jogadores: ");
+    scanf("%d", &n);
+    
+    Jogador jogadores[n];
+    for (int i = 0; i < n; i++) {
+        printf("Digite o nome do jogador %d: ", i + 1);
+        scanf("%s", jogadores[i].nome);
+        printf("Digite a pontuação do jogador %d: ", i + 1);
+        scanf("%d", &jogadores[i].pontuacao);
+    }
+
+    Jogador recordista = jogadores[0];
+    for (int i = 1; i < n; i++) {
+        if (jogadores[i].pontuacao > recordista.pontuacao) {
+            recordista = jogadores[i];
+        }
+    }
+
+    FILE *arquivo = fopen("highscore.txt", "w");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo.\n");
+        return 1;
+    }
+    
+    fprintf(arquivo, "Nome: %s, Pontuacao: %d\n", recordista.nome, recordista.pontuacao);
+    fclose(arquivo);
+    
+    return 0;
+}
