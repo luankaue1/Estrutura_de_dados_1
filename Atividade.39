@@ -1,0 +1,49 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct {
+    char nome[50];
+    float hp;
+    float atk;
+} Inimigo;
+
+void criarArquivo() {
+    FILE *arquivo = fopen("inimigos.txt", "w");
+    if (arquivo == NULL) {
+        printf("Erro ao criar o arquivo.\n");
+        return;
+    }
+    fprintf(arquivo, "Goblin 80.0 30.5\n");
+    fprintf(arquivo, "Orc 150.0 55.0\n");
+    fprintf(arquivo, "Dragao 500.0 95.5\n");
+    fclose(arquivo);
+}
+
+void lerInimigos() {
+    FILE *arquivo = fopen("inimigos.txt", "r");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo.\n");
+        return;
+    }
+
+    Inimigo inimigos[3];
+    for (int i = 0; i < 3; i++) {
+        fscanf(arquivo, "%s %f %f", inimigos[i].nome, &inimigos[i].hp, &inimigos[i].atk);
+    }
+    fclose(arquivo);
+
+    printf("\nInimigos Elite:\n");
+    for (int i = 0; i < 3; i++) {
+        float nivel_de_ameaca = inimigos[i].hp + inimigos[i].atk;
+        if (nivel_de_ameaca >= 200) {
+            printf("Nome: %s, Nível de Ameaça: %.2f\n", inimigos[i].nome, nivel_de_ameaca);
+        }
+    }
+}
+
+int main() {
+    criarArquivo();
+    lerInimigos();
+    return 0;
+}
