@@ -1,0 +1,32 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct {
+    int id;
+    int pontos;
+} Conquista;
+
+int main() {
+    int N;
+    int total_pontos = 0;
+    FILE *arquivo = fopen("player_log.txt", "r+");
+    
+    if (arquivo == NULL) {
+        printf("Erro: Arquivo player_log.txt nao encontrado!\n");
+        return 1;
+    }
+
+    fscanf(arquivo, "%d", &N);
+    for (int i = 0; i < N; i++) {
+        Conquista conquista;
+        fscanf(arquivo, "%d %d", &conquista.id, &conquista.pontos);
+        total_pontos += conquista.pontos;
+    }
+
+    fprintf(arquivo, "\n--- SESSION CONCLUDED ---");
+    fclose(arquivo);
+
+    printf("Total de pontos de experiencia ganhos: %d\n", total_pontos);
+
+    return 0;
+}
