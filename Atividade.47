@@ -1,0 +1,43 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct {
+    char nome[50];
+    int vida;
+    int ataque;
+} Unidade;
+
+int main() {
+    int n;
+
+    printf("Quantas unidades deseja incluir no esquadrao? ");
+    scanf("%d", &n);
+
+    Unidade *unidades = (Unidade *)malloc(n * sizeof(Unidade));
+    
+    for (int i = 0; i < n; i++) {
+        printf("Digite o nome da unidade %d: ", i + 1);
+        scanf("%s", unidades[i].nome);
+        printf("Digite o HP da unidade %d: ", i + 1);
+        scanf("%d", &unidades[i].vida);
+        printf("Digite o ATK da unidade %d: ", i + 1);
+        scanf("%d", &unidades[i].ataque);
+    }
+
+    FILE *arquivo = fopen("squad.dat", "wb");
+    fwrite(unidades, sizeof(Unidade), n, arquivo);
+    fclose(arquivo);
+
+    Unidade maior_atk = unidades[0];
+    for (int i = 1; i < n; i++) {
+        if (unidades[i].ataque > maior_atk.ataque) {
+            maior_atk = unidades[i];
+        }
+    }
+
+    printf("Unidade com maior ATK: %s\n", maior_atk.nome);
+    
+    free(unidades);
+    return 0;
+}
