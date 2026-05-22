@@ -1,0 +1,32 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct {
+    char nome[50];
+    int vida;
+    int ataque;
+} Inimigo;
+
+int main() {
+    Inimigo inimigo_atual, inimigo_mais_forte;
+    FILE *arquivo = fopen("wave_data.txt", "r");
+    
+    if (arquivo == NULL) {
+        printf("Erro: Arquivo wave_data.txt nao encontrado!\n");
+        return 1;
+    }
+
+    inimigo_mais_forte.ataque = -1; // Inicializa com um valor baixo
+
+    while (fscanf(arquivo, "%s %d %d", inimigo_atual.nome, &inimigo_atual.vida, &inimigo_atual.ataque) != EOF) {
+        if (inimigo_atual.ataque > inimigo_mais_forte.ataque) {
+            inimigo_mais_forte = inimigo_atual;
+        }
+    }
+    
+    fclose(arquivo);
+
+    printf("Maior Ameaça: %s, Vida: %d, Ataque: %d\n", inimigo_mais_forte.nome, inimigo_mais_forte.vida, inimigo_mais_forte.ataque);
+
+    return 0;
+}
