@@ -1,0 +1,27 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct {
+    int resolucao_x;
+    int resolucao_y;
+    float volume_som;
+} Configuracao;
+
+int main() {
+    Configuracao config;
+    FILE *arquivo = fopen("config.txt", "r");
+    
+    if (arquivo == NULL) {
+        printf("Erro: Arquivo config.txt nao encontrado!\n");
+        return 1;
+    }
+
+    fscanf(arquivo, "%d %d %f", &config.resolucao_x, &config.resolucao_y, &config.volume_som);
+    fclose(arquivo);
+
+    printf("Configuracoes carregadas:\n");
+    printf("Resolucao: %dx%d\n", config.resolucao_x, config.resolucao_y);
+    printf("Volume: %.1f\n", config.volume_som);
+
+    return 0;
+}
