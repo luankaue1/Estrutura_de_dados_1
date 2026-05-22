@@ -1,0 +1,31 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct {
+    char nome[50];
+    int vida;
+    int ataque;
+} Campeao;
+
+int main() {
+    Campeao campeoes[3];
+    FILE *arquivo = fopen("squad.dat", "rb");
+
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo squad.dat.\n");
+        return 1;
+    }
+
+    fread(campeoes, sizeof(Campeao), 3, arquivo);
+    fclose(arquivo);
+
+    Campeao tanque = campeoes[0];
+    for (int i = 1; i < 3; i++) {
+        if (campeoes[i].vida > tanque.vida) {
+            tanque = campeoes[i];
+        }
+    }
+
+    printf("%s: Tanque do esquadrao.\n", tanque.nome);
+    return 0;
+}
