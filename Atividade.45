@@ -1,0 +1,42 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct {
+    char nome[50];
+    int nivel;
+    float vida;
+    float mana;
+} Personagem;
+
+int main() {
+    Personagem personagem;
+    FILE *arquivo;
+    int opcao;
+
+    do {
+        printf("Menu:\n1 - Criar Novo Personagem\n2 - Sair\nEscolha uma opção: ");
+        scanf("%d", &opcao);
+
+        if (opcao == 1) {
+            printf("Digite o nome do personagem: ");
+            scanf("%s", personagem.nome);
+            printf("Digite o nível do personagem: ");
+            scanf("%d", &personagem.nivel);
+            printf("Digite a vida do personagem: ");
+            scanf("%f", &personagem.vida);
+            printf("Digite a mana do personagem: ");
+            scanf("%f", &personagem.mana);
+            
+            arquivo = fopen("savegame.sav", "ab"); // Abre para adicionar ao final
+            if (arquivo == NULL) {
+                printf("Erro ao abrir savegame.sav!\n");
+                return 1;
+            }
+            fwrite(&personagem, sizeof(Personagem), 1, arquivo);
+            fclose(arquivo);
+        }
+    } while (opcao != 2);
+
+    return 0;
+}
