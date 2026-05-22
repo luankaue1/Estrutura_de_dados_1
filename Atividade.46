@@ -1,0 +1,33 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct {
+    char nome[50];
+    int nivel;
+    int highScore;
+} PlayerProfile;
+
+int main() {
+    PlayerProfile player;
+    FILE *arquivo = fopen("profiles.dat", "rb");
+
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo profiles.dat.\n");
+        return 1;
+    }
+
+    while (fread(&player, sizeof(PlayerProfile), 1, arquivo) == 1) {
+        char *rank;
+        if (player.highScore > 10000) {
+            rank = "Mestre do Jogo";
+        } else if (player.highScore > 5000) {
+            rank = "Veterano";
+        } else {
+            rank = "Aspirante";
+        }
+        printf("Jogador: %s, Rank: %s\n", player.nome, rank);
+    }
+
+    fclose(arquivo);
+    return 0;
+}
