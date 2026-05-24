@@ -1,0 +1,54 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct {
+    int id;
+    char nome[50];
+    int forca;
+    int agilidade;
+    int inteligencia;
+} Personagem;
+
+float media_atributos(Personagem p) {
+    return (p.forca + p.agilidade + p.inteligencia) / 3.0;
+}
+
+int main() {
+    int n;
+    printf("Digite o número total de personagens: ");
+    scanf("%d", &n);
+
+    Personagem *personagens = (Personagem *)malloc(n * sizeof(Personagem));
+
+    for (int i = 0; i < n; i++) {
+        printf("Digite a ID, nome, Força, Agilidade e Inteligência do personagem %d: ", i + 1);
+        scanf("%d %s %d %d %d", &personagens[i].id, personagens[i].nome, &personagens[i].forca, &personagens[i].agilidade, &personagens[i].inteligencia);
+    }
+
+    int opcao;
+    do {
+        printf("Menu:\n1 - Consultar Personagem\n2 - Sair\nEscolha uma opção: ");
+        scanf("%d", &opcao);
+
+        if (opcao == 1) {
+            int id_busca;
+            printf("Digite a ID do personagem: ");
+            scanf("%d", &id_busca);
+
+            int encontrado = 0;
+            for (int i = 0; i < n; i++) {
+                if (personagens[i].id == id_busca) {
+                    printf("Nome: %s, Média de Atributos: %.2f\n", personagens[i].nome, media_atributos(personagens[i]));
+                    encontrado = 1;
+                    break;
+                }
+            }
+            if (!encontrado) {
+                printf("Personagem não encontrado.\n");
+            }
+        }
+    } while (opcao != 2);
+
+    free(personagens);
+    return 0;
+}
