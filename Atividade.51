@@ -1,0 +1,27 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct {
+    char tipo[50];
+    int HP;
+} Inimigo;
+
+int main() {
+    int n;
+
+    printf("Digite o número de unidades inimigas: ");
+    scanf("%d", &n);
+
+    Inimigo *inimigos = (Inimigo *)malloc(n * sizeof(Inimigo));
+
+    for (int i = 0; i < n; i++) {
+        printf("Digite o tipo do inimigo %d: ", i + 1);
+        scanf("%s", inimigos[i].tipo);
+        printf("Digite os HP do inimigo %d: ", i + 1);
+        scanf("%d", &inimigos[i].HP);
+        printf("Inimigo: %s, HP: %d\n", inimigos[i].tipo, inimigos[i].HP);
+    }
+
+    free(inimigos);
+    return 0;
+}
