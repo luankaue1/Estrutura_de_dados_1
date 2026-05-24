@@ -1,0 +1,59 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct {
+    int id;
+    char nickname[50];
+    int reputacao;
+} Jogador;
+
+int busca_binaria(Jogador *jogadores, int id_busca, int n) {
+    int esquerda = 0, direita = n - 1;
+    while (esquerda <= direita) {
+        int meio = (esquerda + direita) / 2;
+        if (jogadores[meio].id == id_busca) {
+            return meio;
+        } else if (jogadores[meio].id < id_busca) {
+            esquerda = meio + 1;
+        } else {
+            direita = meio - 1;
+        }
+    }
+    return -1;
+}
+
+int main() {
+    int n;
+    printf("Digite o número de jogadores a serem cadastrados: ");
+    scanf("%d", &n);
+
+    Jogador *jogadores = (Jogador *)malloc(n * sizeof(Jogador));
+
+    for (int i = 0; i < n; i++) {
+        printf("Digite o ID, nickname e pontos de reputação do jogador %d: ", i + 1);
+        scanf("%d %s %d", &jogadores[i].id, jogadores[i].nickname, &jogadores[i].reputacao);
+    }
+
+    int opcao;
+    do {
+        printf("Menu:\n1 - Adicionar Reputação\n2 - Sair\nEscolha uma opção: ");
+        scanf("%d", &opcao);
+
+        if (opcao == 1) {
+            int id_busca;
+            printf("Digite o ID do jogador: ");
+            scanf("%d", &id_busca);
+
+            int indice = busca_binaria(jogadores, id_busca, n);
+            if (indice != -1) {
+                jogadores[indice].reputacao += 100;
+                printf("Nickname: %s, Nova Reputacao: %d\n", jogadores[indice].nickname, jogadores[indice].reputacao);
+            } else {
+                printf("Jogador com ID %d nao encontrado.\n", id_busca);
+            }
+        }
+    } while (opcao != 2);
+
+    free(jogadores);
+    return 0;
+}
