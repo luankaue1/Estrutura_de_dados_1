@@ -1,0 +1,16 @@
+#include <stdio.h>
+
+int main() {
+    float forca_base, bonus_dano, bonus_buff, dano_total;
+
+    // Leitura dos valores
+    printf("Digite a força base do personagem: ");
+    scanf("%f", &forca_base);
+    printf("Digite o bônus de dano da arma: ");
+    scanf("%f", &bonus_dano);
+    printf("Digite o bônus do feitiço de buff: ");
+    scanf("%f", &bonus_buff);
+    dano_total = forca_base + bonus_dano + bonus_buff;
+    printf("Dano total: %.2f\n", dano_total);
+    return 0;
+}
