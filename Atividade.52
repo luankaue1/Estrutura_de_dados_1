@@ -1,0 +1,40 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+typedef struct {
+    int x;
+    int y;
+} Unidade;
+
+int main() {
+    int n;
+    printf("Digite o número de unidades inimigas: ");
+    scanf("%d", &n);
+
+    Unidade *unidades = (Unidade *)malloc(n * sizeof(Unidade));
+
+    for (int i = 0; i < n; i++) {
+        printf("Digite as coordenadas (x, y) da unidade %d: ", i + 1);
+        scanf("%d %d", &unidades[i].x, &unidades[i].y);
+    }
+
+    float raio;
+    printf("Digite o raio de explosão: ");
+    scanf("%f", &raio);
+
+    int contagem = 0;
+    for (int i = 0; i < n; i++) {
+        for (int j = i + 1; j < n; j++) {
+            float distancia = sqrt(pow(unidades[j].x - unidades[i].x, 2) + pow(unidades[j].y - unidades[i].y, 2));
+            if (distancia <= raio) {
+                contagem++;
+            }
+        }
+    }
+
+    printf("Total de duplas próximas: %d\n", contagem);
+
+    free(unidades);
+    return 0;
+}
