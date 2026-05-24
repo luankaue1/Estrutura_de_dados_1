@@ -1,0 +1,15 @@
+#include <stdio.h>
+
+int main() {
+    int energia;
+
+    printf("Digite o nível de energia inicial do Golem: ");
+    scanf("%d", &energia);
+
+    while (energia > 1) {
+        printf("%d\n", energia);
+        energia /= 2;
+    }
+
+    return 0;
+}
