@@ -28,7 +28,7 @@ int main() {
             printf("Digite a mana do personagem: ");
             scanf("%f", &personagem.mana);
             
-            arquivo = fopen("savegame.sav", "ab"); // Abre para adicionar ao final
+            arquivo = fopen("savegame.sav", "ab");
             if (arquivo == NULL) {
                 printf("Erro ao abrir savegame.sav!\n");
                 return 1;
