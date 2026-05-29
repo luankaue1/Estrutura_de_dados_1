@@ -1,0 +1,33 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void contarCristaisPositivos(int *cristais, int tamanho, int indice, int *contagem) {
+    if (indice < tamanho) {
+        if (cristais[indice] > 0) {
+            (*contagem)++;
+        }
+        contarCristaisPositivos(cristais, tamanho, indice + 1, contagem);
+    }
+}
+
+int main() {
+    int n;
+
+    printf("Digite o número de cristais no inventário: ");
+    scanf("%d", &n);
+
+    int *cristais = (int *)malloc(n * sizeof(int));
+
+    printf("Digite os níveis de carga dos cristais:\n");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &cristais[i]);
+    }
+
+    int contagem = 0;
+    contarCristaisPositivos(cristais, n, 0, &contagem);
+
+    printf("Total de cristais com carga positiva: %d\n", contagem);
+
+    free(cristais);
+    return 0;
+}
