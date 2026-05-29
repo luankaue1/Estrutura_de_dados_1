@@ -14,7 +14,7 @@ int main() {
             }
             placar[i] = novo_tempo;
         } else {
-            break; // Se o novo tempo não for menor, não precisa continuar
+            break;
         }
     }
 
