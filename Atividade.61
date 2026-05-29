@@ -1,0 +1,42 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void selectionSort(int *pontuacoes, int n) {
+    for (int i = 0; i < n - 1; i++) {
+        int min_index = i;
+        for (int j = i + 1; j < n; j++) {
+            if (pontuacoes[j] < pontuacoes[min_index]) {
+                min_index = j;
+            }
+        }
+        // Troca os elementos
+        int temp = pontuacoes[i];
+        pontuacoes[i] = pontuacoes[min_index];
+        pontuacoes[min_index] = temp;
+    }
+}
+
+int main() {
+    int n;
+
+    printf("Digite o número de jogadores na partida: ");
+    scanf("%d", &n);
+
+    int *pontuacoes = (int *)malloc(n * sizeof(int));
+
+    printf("Digite as pontuações:\n");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &pontuacoes[i]);
+    }
+
+    selectionSort(pontuacoes, n);
+
+    printf("Pontuações ordenadas: ");
+    for (int i = 0; i < n; i++) {
+        printf("%d ", pontuacoes[i]);
+    }
+    printf("\n");
+
+    free(pontuacoes);
+    return 0;
+}
