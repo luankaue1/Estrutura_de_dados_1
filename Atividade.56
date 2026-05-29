@@ -1,0 +1,21 @@
+#include <stdio.h>
+
+int calcularDano(int nivel) {
+    if (nivel == 1) {
+        return 10;
+    } else {
+        return calcularDano(nivel - 1) + 5;
+    }
+}
+
+int main() {
+    int nivel;
+
+    printf("Digite o nível do mago: ");
+    scanf("%d", &nivel);
+
+    int dano_total = calcularDano(nivel);
+    printf("Dano total do Ataque em Cascata: %d\n", dano_total);
+
+    return 0;
+}
