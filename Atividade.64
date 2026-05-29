@@ -1,0 +1,39 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int n;
+    printf("Digite o número de fragmentos: ");
+    scanf("%d", &n);
+
+    int *fragmentos = (int *)malloc(n * sizeof(int));
+    if (fragmentos == NULL) {
+        printf("Erro ao alocar memória!\n");
+        return 1;
+    }
+
+    printf("Digite os níveis de poder dos fragmentos:\n");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &fragmentos[i]);
+    }
+
+    for (int i = 1; i < n; i++) {
+        int key = fragmentos[i];
+        int j = i - 1;
+
+        while (j >= 0 && fragmentos[j] > key) {
+            fragmentos[j + 1] = fragmentos[j];
+            j--;
+        }
+        fragmentos[j + 1] = key;
+    }
+
+    printf("Fragmentos ordenados: ");
+    for (int i = 0; i < n; i++) {
+        printf("%d ", fragmentos[i]);
+    }
+    printf("\n");
+
+    free(fragmentos);
+    return 0;
+}
