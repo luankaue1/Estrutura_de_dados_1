@@ -1,0 +1,42 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void particao(int n, int v[]) {
+    int pivô = v[n - 1];
+    int i = 0;
+
+    for (int j = 0; j < n - 1; j++) {
+        if (v[j] < pivô) {
+            int temp = v[i];
+            v[i] = v[j];
+            v[j] = temp;
+            i++;
+        }
+    }
+    v[n - 1] = v[i];
+    v[i] = pivô;
+}
+
+int main() {
+    int n;
+
+    printf("Digite o número de unidades mecha: ");
+    scanf("%d", &n);
+    int *v = (int *)malloc(n * sizeof(int));
+
+    printf("Digite os pontos de vida de cada unidade:\n");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &v[i]);
+    }
+
+    particao(n, v);
+
+    printf("Lista de HP após particionamento:\n");
+    for (int i = 0; i < n; i++) {
+        printf("%d ", v[i]);
+    }
+    printf("\n");
+
+    free(v);
+    return 0;
+}
