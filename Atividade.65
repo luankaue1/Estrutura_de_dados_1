@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct {
+    char nome[50];
+    int pontuacao;
+} Jogador;
+
+void insertionSort(Jogador *jogadores, int n) {
+    for (int i = 1; i < n; i++) {
+        Jogador key = jogadores[i];
+        int j = i - 1;
+
+        while (j >= 0 && jogadores[j].pontuacao < key.pontuacao) {
+            jogadores[j + 1] = jogadores[j];
+            j--;
+        }
+        jogadores[j + 1] = key;
+    }
+}
+
+int main() {
+    int n;
+
+    printf("Digite o número de jogadores: ");
+    scanf("%d", &n);
+
+    Jogador *jogadores = (Jogador *)malloc(n * sizeof(Jogador));
+
+    for (int i = 0; i < n; i++) {
+        printf("Digite o nome e a pontuação do jogador %d: ", i + 1);
+        scanf("%s %d", jogadores[i].nome, &jogadores[i].pontuacao);
+    }
+
+    insertionSort(jogadores, n);
+
+    printf("Ranking final:\n");
+    for (int i = 0; i < n; i++) {
+        printf("%d %s\n", jogadores[i].pontuacao, jogadores[i].nome);
+    }
+
+    free(jogadores);
+    return 0;
+}
