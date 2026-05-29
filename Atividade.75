@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void quickSort(int *mmrs, int low, int high) {
+    if (low < high) {
+        int pivot = mmrs[high];
+        int i = low - 1;
+
+        for (int j = low; j < high; j++) {
+            if (mmrs[j] <= pivot) {
+                i++;
+                int temp = mmrs[i];
+                mmrs[i] = mmrs[j];
+                mmrs[j] = temp;
+            }
+        }
+        int temp = mmrs[i + 1];
+        mmrs[i + 1] = mmrs[high];
+        mmrs[high] = temp;
+
+        int pi = i + 1;
+
+        quickSort(mmrs, low, pi - 1);
+        quickSort(mmrs, pi + 1, high);
+    }
+}
+
+int main() {
+    int n;
+
+    printf("Digite o número de jogadores: ");
+    scanf("%d", &n);
+    int *mmrs = (int *)malloc(n * sizeof(int));
+
+    printf("Digite os MMRs dos jogadores:\n");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &mmrs[i]);
+    }
+
+    quickSort(mmrs, 0, n - 1);
+
+    printf("MMRs ordenados:\n");
+    for (int i = 0; i < n; i++) {
+        printf("%d ", mmrs[i]);
+    }
+    printf("\n");
+
+    free(mmrs);
+    return 0;
+}
