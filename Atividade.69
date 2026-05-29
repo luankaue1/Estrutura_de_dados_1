@@ -1,0 +1,54 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int n, m;
+
+    printf("Digite o número de inimigos do Portal Alfa: ");
+    scanf("%d", &n);
+    int *portalAlfa = (int *)malloc(n * sizeof(int));
+
+    printf("Digite os níveis de ameaça do Portal Alfa:\n");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &portalAlfa[i]);
+    }
+
+    printf("Digite o número de inimigos do Portal Beta: ");
+    scanf("%d", &m);
+    int *portalBeta = (int *)malloc(m * sizeof(int));
+
+    printf("Digite os níveis de ameaça do Portal Beta:\n");
+    for (int i = 0; i < m; i++) {
+        scanf("%d", &portalBeta[i]);
+    }
+
+    int *resultado = (int *)malloc((n + m) * sizeof(int));
+    int i = 0, j = 0, k = 0;
+
+    while (i < n && j < m) {
+        if (portalAlfa[i] < portalBeta[j]) {
+            resultado[k++] = portalAlfa[i++];
+        } else {
+            resultado[k++] = portalBeta[j++];
+        }
+    }
+
+    while (i < n) {
+        resultado[k++] = portalAlfa[i++];
+    }
+
+    while (j < m) {
+        resultado[k++] = portalBeta[j++];
+    }
+
+    printf("Lista de inimigos ordenada:\n");
+    for (int i = 0; i < n + m; i++) {
+        printf("%d ", resultado[i]);
+    }
+    printf("\n");
+
+    free(portalAlfa);
+    free(portalBeta);
+    free(resultado);
+    return 0;
+}
