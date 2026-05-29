@@ -1,0 +1,62 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+int randomPartition(int *scores, int low, int high) {
+    int randomIndex = low + rand() % (high - low);
+    swap(&scores[randomIndex], &scores[high]);
+    return partition(scores, low, high);
+}
+
+int partition(int *scores, int low, int high) {
+    int pivot = scores[high];
+    int i = low - 1;
+
+    for (int j = low; j < high; j++) {
+        if (scores[j] < pivot) {
+            i++;
+            swap(&scores[i], &scores[j]);
+        }
+    }
+    swap(&scores[i + 1], &scores[high]);
+    return i + 1;
+}
+
+void quickSort(int *scores, int low, int high) {
+    if (low < high) {
+        int pi = randomPartition(scores, low, high);
+        quickSort(scores, low, pi - 1);
+        quickSort(scores, pi + 1, high);
+    }
+}
+
+int main() {
+    srand(time(0));
+
+    int n;
+    printf("Digite o número de jogadores: ");
+    scanf("%d", &n);
+    int *scores = (int *)malloc(n * sizeof(int));
+
+    printf("Digite as pontuações dos jogadores:\n");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &scores[i]);
+    }
+
+    quickSort(scores, 0, n - 1);
+
+    printf("Pontuações ordenadas:\n");
+    for (int i = 0; i < n; i++) {
+        printf("%d ", scores[i]);
+    }
+    printf("\n");
+
+    free(scores);
+    return 0;
+}
