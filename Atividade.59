@@ -1,0 +1,57 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct {
+    int id;
+    char nome[50];
+    int hp;
+    int ataque;
+} Monstro;
+
+int buscaBinaria(Monstro *monstros, int id_busca, int esquerda, int direita) {
+    if (esquerda > direita) {
+        return -1;
+    }
+
+    int meio = (esquerda + direita) / 2;
+    
+    if (monstros[meio].id == id_busca) {
+        return meio;
+    } else if (monstros[meio].id > id_busca) {
+        return buscaBinaria(monstros, id_busca, esquerda, meio - 1);
+    } else {
+        return buscaBinaria(monstros, id_busca, meio + 1, direita);
+    }
+}
+
+int main() {
+    int n;
+
+    printf("Digite o número de monstros a serem catalogados: ");
+    scanf("%d", &n);
+
+    Monstro *monstros = (Monstro *)malloc(n * sizeof(Monstro));
+
+    for (int i = 0; i < n; i++) {
+        printf("Digite o ID, nome, HP e ataque do monstro %d: ", i + 1);
+        scanf("%d %s %d %d", &monstros[i].id, monstros[i].nome, &monstros[i].hp, &monstros[i].ataque);
+    }
+
+    int id_busca;
+    do {
+        printf("Digite um ID para buscar (0 para sair): ");
+        scanf("%d", &id_busca);
+        
+        if (id_busca != 0) {
+            int indice = buscaBinaria(monstros, id_busca, 0, n - 1);
+            if (indice != -1) {
+                printf("Monstro Encontrado: %s (ID: %d) - HP: %d, Ataque: %d\n", monstros[indice].nome, monstros[indice].id, monstros[indice].hp, monstros[indice].ataque);
+            } else {
+                printf("Monstro com ID %d nao encontrado.\n", id_busca);
+            }
+        }
+    } while (id_busca != 0);
+
+    free(monstros);
+    return 0;
+}
