@@ -1,0 +1,33 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int encontrarMaximo(int *fragmentos, int inicio, int fim) {
+    if (inicio == fim) {
+        return fragmentos[inicio];
+    }
+
+    int meio = (inicio + fim) / 2;
+    int maxEsquerda = encontrarMaximo(fragmentos, inicio, meio);
+    int maxDireita = encontrarMaximo(fragmentos, meio + 1, fim);
+
+    return (maxEsquerda > maxDireita) ? maxEsquerda : maxDireita;
+}
+
+int main() {
+    int n;
+
+    printf("Digite a quantidade de Fragmentos de Alma: ");
+    scanf("%d", &n);
+    int *fragmentos = (int *)malloc(n * sizeof(int));
+
+    printf("Digite os níveis de poder dos fragmentos:\n");
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &fragmentos[i]);
+    }
+
+    int maxFragmento = encontrarMaximo(fragmentos, 0, n - 1);
+    printf("O fragmento mais poderoso tem nível de poder: %d\n", maxFragmento);
+
+    free(fragmentos);
+    return 0;
+}
