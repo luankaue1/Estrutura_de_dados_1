@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct {
+    char nome[50];
+    int eliminacoes;
+} Jogador;
+
+void selectionSort(Jogador *jogadores, int n) {
+    for (int i = 0; i < n - 1; i++) {
+        int max_index = i;
+        for (int j = i + 1; j < n; j++) {
+            if (jogadores[j].eliminacoes > jogadores[max_index].eliminacoes) {
+                max_index = j;
+            }
+        }
+        if (max_index != i) {
+            Jogador temp = jogadores[i];
+            jogadores[i] = jogadores[max_index];
+            jogadores[max_index] = temp;
+        }
+    }
+}
+
+int main() {
+    int n;
+
+    printf("Digite o número de jogadores: ");
+    scanf("%d", &n);
+
+    Jogador *jogadores = (Jogador *)malloc(n * sizeof(Jogador));
+
+    for (int i = 0; i < n; i++) {
+        printf("Digite o nome e o número de eliminações do jogador %d: ", i + 1);
+        scanf("%s %d", jogadores[i].nome, &jogadores[i].eliminacoes);
+    }
+
+    selectionSort(jogadores, n);
+
+    printf("Leaderboard:\n");
+    for (int i = 0; i < n; i++) {
+        printf("%s: %d eliminações\n", jogadores[i].nome, jogadores[i].eliminacoes);
+    }
+
+    free(jogadores);
+    return 0;
+}
