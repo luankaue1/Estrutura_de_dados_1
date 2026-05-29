@@ -1,0 +1,23 @@
+#include <stdio.h>
+
+int calcularDanoEco(int n) {
+    if (n == 1) {
+        return 0;
+    } else if (n == 2) {
+        return 1;
+    } else {
+        return calcularDanoEco(n - 1) + calcularDanoEco(n - 2);
+    }
+}
+
+int main() {
+    int n;
+
+    printf("Digite o número do golpe na sequência do 'Golpe Ecoante': ");
+    scanf("%d", &n);
+
+    int dano_bônus = calcularDanoEco(n);
+    printf("Dano bônus do Golpe Ecoante: %d\n", dano_bônus);
+
+    return 0;
+}
