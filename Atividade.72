@@ -1,0 +1,72 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct {
+    int posicao;
+    char nome[50];
+} Piloto;
+
+void merge(Piloto *pilotos, int esquerda, int meio, int direita) {
+    int n1 = meio - esquerda + 1;
+    int n2 = direita - meio;
+
+    Piloto *L = (Piloto *)malloc(n1 * sizeof(Piloto));
+    Piloto *R = (Piloto *)malloc(n2 * sizeof(Piloto));
+
+    for (int i = 0; i < n1; i++)
+        L[i] = pilotos[esquerda + i];
+    for (int j = 0; j < n2; j++)
+        R[j] = pilotos[meio + 1 + j];
+
+    int i = 0, j = 0, k = esquerda;
+    while (i < n1 && j < n2) {
+        if (L[i].posicao <= R[j].posicao) {
+            pilotos[k++] = L[i++];
+        } else {
+            pilotos[k++] = R[j++];
+        }
+    }
+
+    while (i < n1) {
+        pilotos[k++] = L[i++];
+    }
+
+    while (j < n2) {
+        pilotos[k++] = R[j++];
+    }
+
+    free(L);
+    free(R);
+}
+
+void mergeSort(Piloto *pilotos, int esquerda, int direita) {
+    if (esquerda < direita) {
+        int meio = (esquerda + direita) / 2;
+        mergeSort(pilotos, esquerda, meio);
+        mergeSort(pilotos, meio + 1, direita);
+        merge(pilotos, esquerda, meio, direita);
+    }
+}
+
+int main() {
+    int n;
+
+    printf("Digite o nÃºmero de pilotos: ");
+    scanf("%d", &n);
+    Piloto *pilotos = (Piloto *)malloc(n * sizeof(Piloto));
+
+    for (int i = 0; i < n; i++) {
+        printf("Digite a posiÃ§Ã£o de chegada e o nome do piloto %d: ", i + 1);
+        scanf("%d %s", &pilotos[i].posicao, pilotos[i].nome);
+    }
+
+    mergeSort(pilotos, 0, n - 1);
+
+    printf("Pilotos ordenados:\n");
+    for (int i = 0; i < n; i++) {
+        printf("%d %s\n", pilotos[i].posicao, pilotos[i].nome);
+    }
+
+    free(pilotos);
+    return 0;
+}
