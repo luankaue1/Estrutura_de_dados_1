@@ -1,0 +1,33 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct {
+    char nome[50];
+    int hp;
+} Monstro;
+
+int main() {
+    int n;
+
+    printf("Digite o número de monstros na horda: ");
+    scanf("%d", &n);
+
+    Monstro *monstros = (Monstro *)malloc(n * sizeof(Monstro));
+
+    for (int i = 0; i < n; i++) {
+        printf("Digite o nome e HP do monstro %d: ", i + 1);
+        scanf("%s %d", monstros[i].nome, &monstros[i].hp);
+    }
+
+    Monstro *alvo_prioritario = &monstros[0];
+    for (int i = 1; i < n; i++) {
+        if (monstros[i].hp < alvo_prioritario->hp) {
+            alvo_prioritario = &monstros[i];
+        }
+    }
+
+    printf("Alvo prioritario: %s (%d HP)\n", alvo_prioritario->nome, alvo_prioritario->hp);
+
+    free(monstros);
+    return 0;
+}
