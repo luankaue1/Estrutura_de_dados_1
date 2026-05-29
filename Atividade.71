@@ -1,0 +1,73 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct {
+    int id;
+    int nivel_ameaca;
+} NaveInimiga;
+
+void merge(NaveInimiga *naves, int esquerda, int meio, int direita) {
+    int n1 = meio - esquerda + 1;
+    int n2 = direita - meio;
+
+    NaveInimiga *L = (NaveInimiga *)malloc(n1 * sizeof(NaveInimiga));
+    NaveInimiga *R = (NaveInimiga *)malloc(n2 * sizeof(NaveInimiga));
+
+    for (int i = 0; i < n1; i++)
+        L[i] = naves[esquerda + i];
+    for (int j = 0; j < n2; j++)
+        R[j] = naves[meio + 1 + j];
+
+    int i = 0, j = 0, k = esquerda;
+    while (i < n1 && j < n2) {
+        if (L[i].nivel_ameaca <= R[j].nivel_ameaca) {
+            naves[k++] = L[i++];
+        } else {
+            naves[k++] = R[j++];
+        }
+    }
+
+    while (i < n1) {
+        naves[k++] = L[i++];
+    }
+
+    while (j < n2) {
+        naves[k++] = R[j++];
+    }
+
+    free(L);
+    free(R);
+}
+
+void mergeSort(NaveInimiga *naves, int esquerda, int direita) {
+    if (esquerda < direita) {
+        int meio = (esquerda + direita) / 2;
+        mergeSort(naves, esquerda, meio);
+        mergeSort(naves, meio + 1, direita);
+        merge(naves, esquerda, meio, direita);
+    }
+}
+
+int main() {
+    int n;
+
+    printf("Digite o nÃºmero de naves inimigas: ");
+    scanf("%d", &n);
+    NaveInimiga *naves = (NaveInimiga *)malloc(n * sizeof(NaveInimiga));
+
+    for (int i = 0; i < n; i++) {
+        printf("Digite o ID e o nÃ­vel de ameaÃ§a da nave %d: ", i + 1);
+        scanf("%d %d", &naves[i].id, &naves[i].nivel_ameaca);
+    }
+
+    mergeSort(naves, 0, n - 1);
+
+    printf("IDs das naves ordenadas por prioridade:\n");
+    for (int i = 0; i < n; i++) {
+        printf("%d ", naves[i].id);
+    }
+    printf("\n");
+
+    free(naves);
+    return 0;
+}
