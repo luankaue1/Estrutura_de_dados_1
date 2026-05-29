@@ -8,12 +8,6 @@ void swap(int *a, int *b) {
     *b = temp;
 }
 
-int randomPartition(int *scores, int low, int high) {
-    int randomIndex = low + rand() % (high - low);
-    swap(&scores[randomIndex], &scores[high]);
-    return partition(scores, low, high);
-}
-
 int partition(int *scores, int low, int high) {
     int pivot = scores[high];
     int i = low - 1;
@@ -26,6 +20,12 @@ int partition(int *scores, int low, int high) {
     }
     swap(&scores[i + 1], &scores[high]);
     return i + 1;
+}
+
+int randomPartition(int *scores, int low, int high) {
+    int randomIndex = low + rand() % (high - low + 1);
+    swap(&scores[randomIndex], &scores[high]);
+    return partition(scores, low, high);
 }
 
 void quickSort(int *scores, int low, int high) {
