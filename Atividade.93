@@ -1,0 +1,105 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct Membro {
+    int id;
+    char nome[100];
+    struct Membro *proximo;
+} Membro;
+
+typedef struct Lista {
+    Membro *inicio;
+} Lista;
+
+Lista *criar_lista() {
+    Lista *lista = (Lista *)malloc(sizeof(Lista));
+    lista->inicio = NULL;
+    return lista;
+}
+
+void inserir_fim(Lista *lista, int id, const char *nome) {
+    Membro *novo = (Membro *)malloc(sizeof(Membro));
+    novo->id = id;
+    strcpy(novo->nome, nome);
+    novo->proximo = NULL;
+
+    if (lista->inicio == NULL) {
+        lista->inicio = novo;
+    } else {
+        Membro *atual = lista->inicio;
+        while (atual->proximo != NULL) {
+            atual = atual->proximo;
+        }
+        atual->proximo = novo;
+    }
+}
+
+void mostrar_lista(Lista *lista) {
+    Membro *atual = lista->inicio;
+    while (atual != NULL) {
+        printf("ID: %d, Nome: %s\n", atual->id, atual->nome);
+        atual = atual->proximo;
+    }
+}
+
+Membro *pesquisar(Lista *lista, int id) {
+    Membro *atual = lista->inicio;
+    while (atual != NULL) {
+        if (atual->id == id) {
+            return atual;
+        }
+        atual = atual->proximo;
+    }
+    return NULL;
+}
+
+void alterar_nome(Lista *lista, int id, const char novo_nome[]) {
+    Membro *membro = pesquisar(lista, id);
+    if (membro != NULL) {
+        strcpy(membro->nome, novo_nome);
+    } else {
+        printf("Membro com ID %d não encontrado.\n", id);
+    }
+}
+
+int main() {
+    Lista *lista = criar_lista();
+    int opcao, id;
+    char nome[100];
+
+    while (1) {
+        printf("Menu:\n");
+        printf("1. Adicionar membro\n");
+        printf("2. Mostrar lista\n");
+        printf("3. Alterar nome de membro\n");
+        printf("4. Sair\n");
+        printf("Escolha uma opção: ");
+        scanf("%d", &opcao);
+
+        switch (opcao) {
+            case 1:
+                printf("Digite o ID e o nome do membro: ");
+                scanf("%d %s", &id, nome);
+                inserir_fim(lista, id, nome);
+                break;
+            case 2:
+                mostrar_lista(lista);
+                break;
+            case 3:
+                printf("Digite o ID do membro a ser alterado: ");
+                scanf("%d", &id);
+                printf("Digite o novo nome: ");
+                scanf("%s", nome);
+                alterar_nome(lista, id, nome);
+                break;
+            case 4:
+                free(lista);
+                exit(0);
+            default:
+                printf("Opção inválida. Tente novamente.\n");
+        }
+    }
+
+    return 0;
+}
