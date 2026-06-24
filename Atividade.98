@@ -1,0 +1,91 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct Membro {
+    int id;
+    char nome[100];
+    struct Membro *proximo;
+} Membro;
+
+typedef struct Lista {
+    Membro *inicio;
+} Lista;
+
+Lista *criar_lista() {
+    Lista *lista = (Lista *)malloc(sizeof(Lista));
+    lista->inicio = NULL;
+    return lista;
+}
+
+void inserir_fim(Lista *lista, int id, const char *nome) {
+    Membro *novo = (Membro *)malloc(sizeof(Membro));
+    novo->id = id;
+    strcpy(novo->nome, nome);
+    novo->proximo = NULL;
+
+    if (lista->inicio == NULL) {
+        lista->inicio = novo;
+    } else {
+        Membro *atual = lista->inicio;
+        while (atual->proximo != NULL) {
+            atual = atual->proximo;
+        }
+        atual->proximo = novo;
+    }
+}
+
+Lista *carregar_guilda() {
+    FILE *arquivo = fopen("guild_roster.bin", "rb");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo para leitura.\n");
+        return NULL;
+    }
+
+    Lista *lista = criar_lista();
+    Membro membro;
+
+    while (fread(&membro, sizeof(Membro), 1, arquivo) == 1) {
+        inserir_fim(lista, membro.id, membro.nome);
+    }
+
+    fclose(arquivo);
+    return lista;
+}
+
+void mostrar_guilda(Lista *lista) {
+    Membro *atual = lista->inicio;
+    while (atual != NULL) {
+        printf("ID: %d, Nome: %s\n", atual->id, atual->nome);
+        atual = atual->proximo;
+    }
+}
+
+void salvar_guilda_teste() {
+    Lista *lista = criar_lista();
+    inserir_fim(lista, 1, "Membro1");
+    inserir_fim(lista, 2, "Membro2");
+    inserir_fim(lista, 3, "Membro3");
+
+    FILE *arquivo = fopen("guild_roster.bin", "wb");
+    Membro *atual = lista->inicio;
+    while (atual != NULL) {
+        fwrite(atual, sizeof(Membro), 1, arquivo);
+        atual = atual->proximo;
+    }
+    fclose(arquivo);
+    free(lista);
+}
+
+int main() {
+    salvar_guilda_teste();
+
+    Lista *guilda = carregar_guilda();
+    if (guilda != NULL) {
+        printf("Membros carregados:\n");
+        mostrar_guilda(guilda);
+        free(guilda);
+    }
+
+    return 0;
+}
