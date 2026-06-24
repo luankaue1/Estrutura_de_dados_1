@@ -1,0 +1,81 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct Inimigo {
+    int id;
+    char tipo[50];
+    struct Inimigo *proximo;
+} Inimigo;
+
+Inimigo *inicio = NULL;
+
+void inserir_fim(int id, const char *tipo) {
+    Inimigo *novo = (Inimigo *)malloc(sizeof(Inimigo));
+    novo->id = id;
+    strcpy(novo->tipo, tipo);
+    novo->proximo = NULL;
+
+    if (inicio == NULL) {
+        inicio = novo;
+    } else {
+        Inimigo *atual = inicio;
+        while (atual->proximo != NULL) {
+            atual = atual->proximo;
+        }
+        atual->proximo = novo;
+    }
+}
+
+void criar_lista(int n) {
+    for (int i = 0; i < n; i++) {
+        int id;
+        char tipo[50];
+        printf("Digite o ID e o tipo do inimigo %d: ", i + 1);
+        scanf("%d %s", &id, tipo);
+        inserir_fim(id, tipo);
+    }
+}
+
+void exibir_inimigos() {
+    Inimigo *atual = inicio;
+    if (atual == NULL) {
+        printf("Nenhum inimigo na lista.\n");
+        return;
+    }
+    while (atual != NULL) {
+        printf("ID: %d, Tipo: %s\n", atual->id, atual->tipo);
+        atual = atual->proximo;
+    }
+}
+
+int main() {
+    int opcao;
+
+    while (1) {
+        printf("Menu:\n");
+        printf("1. Iniciar nova onda\n");
+        printf("2. Exibir inimigos\n");
+        printf("3. Sair\n");
+        printf("Escolha uma opção: ");
+        scanf("%d", &opcao);
+
+        switch (opcao) {
+            case 1:
+                printf("Quantos inimigos na nova onda? ");
+                int n;
+                scanf("%d", &n);
+                criar_lista(n);
+                break;
+            case 2:
+                exibir_inimigos();
+                break;
+            case 3:
+                exit(0);
+            default:
+                printf("Opção inválida. Tente novamente.\n");
+        }
+    }
+
+    return 0;
+}
