@@ -1,0 +1,98 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct Membro {
+    int id;
+    char nome[100];
+    struct Membro *proximo;
+} Membro;
+
+typedef struct Lista {
+    Membro *inicio;
+} Lista;
+
+Lista *criar_lista() {
+    Lista *lista = (Lista *)malloc(sizeof(Lista));
+    lista->inicio = NULL;
+    return lista;
+}
+
+void inserir_fim(Lista *lista, int id, const char *nome) {
+    Membro *novo = (Membro *)malloc(sizeof(Membro));
+    novo->id = id;
+    strcpy(novo->nome, nome);
+    novo->proximo = NULL;
+
+    if (lista->inicio == NULL) {
+        lista->inicio = novo;
+    } else {
+        Membro *atual = lista->inicio;
+        while (atual->proximo != NULL) {
+            atual = atual->proximo;
+        }
+        atual->proximo = novo;
+    }
+}
+
+void salvar_guild_arquivo(Lista *lista) {
+    FILE *arquivo = fopen("guild_roster.bin", "wb");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo para escrita.\n");
+        return;
+    }
+
+    Membro *atual = lista->inicio;
+    while (atual != NULL) {
+        fwrite(atual, sizeof(Membro), 1, arquivo);
+        atual = atual->proximo;
+    }
+
+    fclose(arquivo);
+    printf("Guilda salva com sucesso.\n");
+}
+
+void mostrar_guilda(Lista *lista) {
+    Membro *atual = lista->inicio;
+    while (atual != NULL) {
+        printf("ID: %d, Nome: %s\n", atual->id, atual->nome);
+        atual = atual->proximo;
+    }
+}
+
+int main() {
+    Lista *guilda = criar_lista();
+    int opcao, id;
+    char nome[100];
+
+    while (1) {
+        printf("Menu:\n");
+        printf("1. Adicionar membro\n");
+        printf("2. Mostrar guilda\n");
+        printf("3. Salvar guilda\n");
+        printf("4. Sair\n");
+        printf("Escolha uma opção: ");
+        scanf("%d", &opcao);
+
+        switch (opcao) {
+            case 1:
+                printf("Digite o ID e o nome do membro: ");
+                scanf("%d %s", &id, nome);
+                inserir_fim(guilda, id, nome);
+                break;
+            case 2:
+                mostrar_guilda(guilda);
+                break;
+            case 3:
+                salvar_guild_arquivo(guilda);
+                break;
+            case 4:
+                free(guilda);
+                exit(0);
+            default:
+                printf("Opção inválida. Tente novamente.\n");
+        }
+    }
+
+    return 0;
+}
