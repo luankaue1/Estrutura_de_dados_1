@@ -1,0 +1,87 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct Mercenario {
+    int id;
+    char nome[50];
+    struct Mercenario *proximo;
+} Mercenario;
+
+Mercenario *inicio = NULL;
+
+void contratar_mercenario(int id, const char *nome) {
+    Mercenario *novo = (Mercenario *)malloc(sizeof(Mercenario));
+    novo->id = id;
+    strcpy(novo->nome, nome);
+    novo->proximo = NULL;
+
+    if (inicio == NULL) {
+        inicio = novo;
+    } else {
+        Mercenario *atual = inicio;
+        while (atual->proximo != NULL) {
+            atual = atual->proximo;
+        }
+        atual->proximo = novo;
+    }
+}
+
+void exibir_companhia() {
+    Mercenario *atual = inicio;
+    if (atual == NULL) {
+        printf("Nenhum mercenário na companhia.\n");
+        return;
+    }
+    while (atual != NULL) {
+        printf("ID: %d, Nome: %s\n", atual->id, atual->nome);
+        atual = atual->proximo;
+    }
+}
+
+void demitir_todos_mercenarios() {
+    Mercenario *atual = inicio;
+    while (atual != NULL) {
+        Mercenario *temp = atual;
+        atual = atual->proximo;
+        free(temp);
+    }
+    inicio = NULL;
+}
+
+int main() {
+    int opcao, id;
+    char nome[50];
+
+    while (1) {
+        printf("Menu:\n");
+        printf("1. Contratar mercenário\n");
+        printf("2. Exibir companhia\n");
+        printf("3. Declarar falência\n");
+        printf("4. Sair\n");
+        printf("Escolha uma opção: ");
+        scanf("%d", &opcao);
+
+        switch (opcao) {
+            case 1:
+                printf("Digite o ID e o nome do mercenário: ");
+                scanf("%d %s", &id, nome);
+                contratar_mercenario(id, nome);
+                break;
+            case 2:
+                exibir_companhia();
+                break;
+            case 3:
+                demitir_todos_mercenarios();
+                printf("Todos os mercenários foram demitidos.\n");
+                break;
+            case 4:
+                demitir_todos_mercenarios();
+                exit(0);
+            default:
+                printf("Opção inválida. Tente novamente.\n");
+        }
+    }
+
+    return 0;
+}
