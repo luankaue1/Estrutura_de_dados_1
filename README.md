@@ -1,4 +1,4 @@
-<h1 align="center"> 📚 Algoritmos e Estruturas de Dados I (Teoria) </h1>
+<h1 align="center"> 📚 Algoritmos e Estruturas de Dados I </h1>
 
 <p align="center">
   💻 Repositório centralizado com resumos, análises de complexidade e fundamentos teóricos dos algoritmos e estruturas de dados da disciplina.
